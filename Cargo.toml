@@ -1,0 +1,18 @@
+[package]
+name = "sweep"
+version = "0.1.0"
+edition = "2024"
+description = "Smart non-destructive cache, temp, and project artifact cleaner with process and age guards"
+
+[dependencies]
+libc = "0.2"
+rurich = { git = "https://github.com/koresent/rurich", branch = "main", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+strip = true
