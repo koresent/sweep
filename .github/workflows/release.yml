@@ -97,3 +97,13 @@ jobs:
             sweep-linux-x86_64.sha256
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trigger pkg-repo rebuild
+        if: github.event_name != 'pull_request'
+        run: |
+          gh api repos/koresent/pkg-repo/dispatches \
+            -f event_type=package-updated \
+            -F client_payload[package]=sweep \
+            -F client_payload[commit]=${{ github.sha }}
+        env:
+          GH_TOKEN: ${{ secrets.REPO_DISPATCH_TOKEN }}
